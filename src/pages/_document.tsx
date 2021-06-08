@@ -1,8 +1,8 @@
 /* Teoria de _document
-Isto equivale ao HTML que vai carregar somente uma vez ao iniciar a aplicação 
+Isto equivale ao HTML que vai carregar somente uma vez ao iniciar a aplicação
 A estrutura trabalhada está detalhada em: https://nextjs.org/docs/advanced-features/custom-document*/
 
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 export default class MyDocument extends Document {
   render() {
@@ -20,6 +20,6 @@ export default class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
