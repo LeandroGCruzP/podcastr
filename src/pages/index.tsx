@@ -1,19 +1,21 @@
-/* Página com SSG - Static Side Generation
+/* Página com SSG (Static Side Generation)
 Você coloca um tempo onde a página vai recarregar nova informação da api que está consumindo
 assim tendo uma página estática e melhorando o performance*/
 import { GetStaticProps } from 'next' // Tipagem da função getStaticProps para aplicar TS
-import Image from 'next/image' // Ajuda a setar a altura e largura que vai carregar a aplicação, não o que vai mostrar
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { api } from '../services/api'
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString'
+
+import { api } from '../services/api'
+
+import Image from 'next/image' // Define: altura * largura que vai carregar a imagem
+import Link from 'next/link' // Aplica o conceito SPA (Single Page Aplication) no <a> (ancora)
 
 import styles from './home.module.scss'
 
 interface Episodes {
   id: string
   title: string
-  description: string
   thumbnail: string
   members: string
   publishedAt: string
@@ -46,7 +48,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 />
 
                 <div className={styles.episodeDetails}>
-                  <a href="">{episode.title}</a>
+                  <Link href={`/episodes/${episode.id}`}>
+                    <a>{episode.title}</a>
+                  </Link>
                   <p>{episode.members}</p>
                   <span>{episode.publishedAt}</span>
                   <span>{episode.durationAsString}</span>
@@ -66,12 +70,14 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
         <table cellSpacing={0}>
           <thead>
-            <th></th>
-            <th>Podcast</th>
-            <th>Integrantes</th>
-            <th>Data</th>
-            <th>Duração</th>
-            <th></th>
+            <tr>
+              <th></th>
+              <th>Podcast</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             {allEpisodes.map(episode => {
@@ -87,7 +93,9 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                     />
                   </td>
                   <td>
-                    <a href="">{episode.title}</a>
+                    <Link href={`/episodes/${episode.id}`}>
+                      <a>{episode.title}</a>
+                    </Link>
                   </td>
                   <td>{episode.members}</td>
                   <td style={{ width: 100 }}>{episode.publishedAt}</td>
@@ -127,13 +135,12 @@ export const getStaticProps: GetStaticProps = async () => {
   })
 
   /* Formatação dos dados da API
-  Antes de mandar os dados pra mostrar no componente, envez de formatar eles ao momento de mostrar
+  Antes de mandar os dados pra mostrar no componente Home, envez de formatar eles ao momento de mostrar
   melhor é formatar apenas se faz a chamada a API */
   const episodes = data.map(episode => {
     return {
       id: episode.id,
       title: episode.title,
-      description: episode.description,
       thumbnail: episode.thumbnail,
       members: episode.members,
       publishedAt: format(parseISO(episode.published_at), 'd MMM yy', {
@@ -155,6 +162,6 @@ export const getStaticProps: GetStaticProps = async () => {
       latestEpisodes,
       allEpisodes
     },
-    revalidate: 60 * 60 * 8 // 60 segudos * 60 * 8 = A cada 8 horas se refaz a consulta a API
+    revalidate: 60 * 60 * 8 // 8 Horas (refaz consulta na API)
   }
 }
