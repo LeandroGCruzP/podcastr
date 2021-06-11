@@ -78,10 +78,7 @@
               position: absolute;
               left: 0;
               top: 50%;
-              transform: translate(
-                -50%,
-                -50%
-              ); // Centralizar elemento completo relativo ao tamanho de 4px
+              transform: translate(-50%, -50%);
             }
           }
         }
