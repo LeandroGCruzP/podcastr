@@ -69,10 +69,35 @@ export default function Episode({ episode }: EpisodeProps) {
   )
 }
 
-// Página estatica dinamica
+/** Página Estática Dinamica
+ * Se utiliza em componentes que se criam com colchetes [algo].tsx
+ * O proposito é carregar algumas páginas de forma estática no paths
+ * O fallback tem tres opcoes:
+ * false: retorna 404 se a página nao foi carregada de forma estática no build
+ * true: faz consulta no front-end (client) e tenta buscar os dados na função Episode
+ * (da erro e tem que fazer uma opção com Router do next para esperar que carregue o fallback)
+ * 'blocking': ao usuario accesar uma página que não foi carrega no build o carrega e deixa
+ * carregada para os outros usuarios que acceden essa página.
+ */
 export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await api.get('episodes', {
+    params: {
+      _limit: 2,
+      _sort: 'published_at',
+      _order: 'desc'
+    }
+  })
+
+  const paths = data.map(episode => {
+    return {
+      params: {
+        slug: episode.id
+      }
+    }
+  })
+
   return {
-    paths: [],
+    paths,
     fallback: 'blocking'
   }
 }
