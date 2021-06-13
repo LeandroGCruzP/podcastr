@@ -1,14 +1,18 @@
+/** Extensões
+ * -- date-fns --
+ * yarn add date-fns
+ * documentação: https://date-fns.org/v2.22.1/docs/format
+ */
 import format from 'date-fns/format'
 import ptBR from 'date-fns/locale/pt-BR'
 
 import styles from './styles.module.scss'
 
 export default function Header() {
-  /* Formatando a data
-  Para formatar a data se ocupará o pacote "date-fns"
-  e o formato escolhido foi a través da documentação do proprio date-fns/format
-  instalar: yarn add date-fns
-  link: https://date-fns.org/v2.22.1/docs/format*/
+  /** Formatando a data
+   * Formatando a data com "date-fns/format"
+   * o formato selecionado se encontra na documentação.
+   */
   const currentDate = format(new Date(), 'EEEEEE, d MMM', {
     locale: ptBR // idioma da data selecionada
   })

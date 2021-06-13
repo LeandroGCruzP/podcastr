@@ -1,3 +1,7 @@
+/** Extensões
+ * -- axios --
+ * yarn add axios
+ */
 import axios from 'axios'
 
 export const api = axios.create({
