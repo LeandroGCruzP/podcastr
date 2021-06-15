@@ -8,15 +8,16 @@
  * documentação: https://date-fns.org/v2.22.1/docs/format
  */
 import { GetStaticProps } from 'next' // Tipagem da função getStaticProps para aplicar TS
+import { useContext } from 'react'
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { convertDurationToTimeString } from '../utils/convertDurationToTimeString'
-
-import { api } from '../services/api'
 
 import Image from 'next/image' // Define: altura * largura que vai carregar a imagem
 import Link from 'next/link' // Aplica o conceito SPA (Single Page Aplication) no href
 
+import { PlayerContext } from '../contexts/PlayerContext'
+import { api } from '../services/api'
+import { convertDurationToTimeString } from '../utils/convertDurationToTimeString'
 import styles from './home.module.scss'
 
 interface Episodes {
@@ -36,6 +37,8 @@ interface HomeProps {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
+  const { play } = useContext(PlayerContext)
+
   return (
     <div className={styles.homepage}>
       <section className={styles.latestEpisodes}>
@@ -62,7 +65,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button">
+                <button
+                  type="button"
+                  onClick={() => {
+                    play(episode)
+                  }}
+                >
                   <img src="/play-green.svg" alt="Tocar episódio" />
                 </button>
               </li>
