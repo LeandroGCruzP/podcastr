@@ -13,8 +13,11 @@ interface PlayerContextData {
   currentEpisodeIndex: number
   play: (episode: Episode) => void
   isPlaying: boolean
+  playList: (list: Episode[], index: number) => void
   togglePlay: () => void
   setPlayingState: (state: boolean) => void
+  playNext: () => void
+  playPreview: () => void
 }
 
 export const PlayerContext = createContext({} as PlayerContextData)

@@ -37,7 +37,11 @@ interface HomeProps {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { play } = useContext(PlayerContext)
+  const { playList } = useContext(PlayerContext)
+
+  // latestEpisodes: Ultimos 2 episódios que estão em cima
+  // allEpisodes: Todos os episódios que estão em baixo para reproduzir
+  const episodeList = [...latestEpisodes, ...allEpisodes] // Todos os episódios que se tem em uma única lista
 
   return (
     <div className={styles.homepage}>
@@ -45,7 +49,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
         <h2>Últimos lançamentos</h2>
 
         <ul>
-          {latestEpisodes.map(episode => {
+          {latestEpisodes.map((episode, index) => {
             return (
               <li key={episode.id}>
                 <Image
@@ -68,7 +72,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    play(episode)
+                    playList(episodeList, index)
                   }}
                 >
                   <img src="/play-green.svg" alt="Tocar episódio" />
@@ -94,7 +98,7 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
             </tr>
           </thead>
           <tbody>
-            {allEpisodes.map(episode => {
+            {allEpisodes.map((episode, index) => {
               return (
                 <tr key={episode.id}>
                   <td style={{ width: 72 }}>
@@ -115,7 +119,12 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
                   <td style={{ width: 100 }}>{episode.publishedAt}</td>
                   <td>{episode.durationAsString}</td>
                   <td>
-                    <button type="button">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        playList(episodeList, index + latestEpisodes.length)
+                      }
+                    >
                       <img src="/play-green.svg" alt="Tocar episódio" />
                     </button>
                   </td>
@@ -178,7 +187,7 @@ export const getStaticProps: GetStaticProps = async () => {
   })
 
   const latestEpisodes = episodes.slice(0, 2)
-  const allEpisodes = episodes.slice(0, episodes.length)
+  const allEpisodes = episodes.slice(2, episodes.length)
 
   return {
     props: {
