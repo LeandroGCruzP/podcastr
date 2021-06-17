@@ -17,6 +17,7 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
   const [episodeList, setEpisodeList] = useState([])
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isLooping, setIsLooping] = useState(false)
 
   /** Descrição:
    * Função para seleccioar um episódio e colocar para reprodução
@@ -53,7 +54,7 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
   }
 
   const hasNext = currentEpisodeIndex > 0
-  const hasPrevious = currentEpisodeIndex - 1 < episodeList.length
+  const hasPrevious = (currentEpisodeIndex + 1) < episodeList.length
 
   /** Descrição:
    * Função para tocar a próxima música
@@ -73,6 +74,13 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
     }
   }
 
+  /** Descrição:
+   * Função para repetir todas as músicas novamente fazendo o ciclo completo
+   */
+   function toggleLoop() {
+    setIsLooping(!isLooping)
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -86,7 +94,9 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
         hasNext,
         hasPrevious,
         playNext,
-        playPrevious
+        playPrevious,
+        isLooping,
+        toggleLoop
       }}
     >
       {children}

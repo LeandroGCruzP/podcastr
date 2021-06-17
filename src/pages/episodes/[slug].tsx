@@ -16,6 +16,7 @@ import Image from 'next/image' // Define: altura * largura que vai carregar a im
 import Link from 'next/link' // Aplica o conceito SPA (Single Page Aplication) no href
 
 import { api } from '../../services/api'
+import { usePlayer } from '../../contexts/PlayerContext'
 import styles from './episode.module.scss'
 
 interface Episode {
@@ -35,6 +36,8 @@ interface EpisodeProps {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
+  const { play } = usePlayer()
+
   return (
     <div className={styles.episode}>
       <div className={styles.thumbnailContainer}>
@@ -49,7 +52,7 @@ export default function Episode({ episode }: EpisodeProps) {
           src={episode.thumbnail}
           objectFit="cover"
         />
-        <button type="button">
+        <button type="button" onClick={() => play(episode)}>
           <img src="/play.svg" alt="Tocar episódio" />
         </button>
       </div>

@@ -8,14 +8,13 @@
  * documentação: https://date-fns.org/v2.22.1/docs/format
  */
 import { GetStaticProps } from 'next' // Tipagem da função getStaticProps para aplicar TS
-import { useContext } from 'react'
 import { format, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
 import Image from 'next/image' // Define: altura * largura que vai carregar a imagem
 import Link from 'next/link' // Aplica o conceito SPA (Single Page Aplication) no href
 
-import { PlayerContext } from '../contexts/PlayerContext'
+import { usePlayer } from '../contexts/PlayerContext'
 import { api } from '../services/api'
 import { convertDurationToTimeString } from '../utils/convertDurationToTimeString'
 import styles from './home.module.scss'
@@ -37,7 +36,7 @@ interface HomeProps {
 }
 
 export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
-  const { playList } = useContext(PlayerContext)
+  const { playList } = usePlayer()
 
   // latestEpisodes: Ultimos 2 episódios que estão em cima
   // allEpisodes: Todos os episódios que estão em baixo para reproduzir
