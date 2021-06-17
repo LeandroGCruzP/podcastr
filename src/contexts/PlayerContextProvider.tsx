@@ -52,11 +52,14 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
     setIsPlaying(state)
   }
 
+  const hasNext = currentEpisodeIndex > 0
+  const hasPrevious = currentEpisodeIndex - 1 < episodeList.length
+
   /** Descrição:
    * Função para tocar a próxima música
    */
   function playNext() {
-    if (currentEpisodeIndex > 0) {
+    if (hasNext) {
       setCurrentEpisodeIndex(currentEpisodeIndex - 1)
     }
   }
@@ -64,10 +67,8 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
   /** Descrição:
    * Função para tocar música anterior
    */
-  function playPreview() {
-    const nextEpisodeIndex = currentEpisodeIndex + 1
-
-    if (nextEpisodeIndex < episodeList.length) {
+  function playPrevious() {
+    if (hasPrevious) {
       setCurrentEpisodeIndex(currentEpisodeIndex + 1)
     }
   }
@@ -82,8 +83,10 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
         isPlaying,
         togglePlay,
         setPlayingState,
+        hasNext,
+        hasPrevious,
         playNext,
-        playPreview
+        playPrevious
       }}
     >
       {children}
