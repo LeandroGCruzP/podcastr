@@ -15,6 +15,7 @@ interface PlayerContextData {
   hasPrevious: boolean
   isPlaying: boolean
   isLooping: boolean
+  isShuffling: boolean
   play: (episode: Episode) => void
   playList: (list: Episode[], index: number) => void
   playNext: () => void
@@ -22,6 +23,7 @@ interface PlayerContextData {
   setPlayingState: (state: boolean) => void
   togglePlay: () => void
   toggleLoop: () => void
+  toggleShuffle: () => void
 }
 
 export const PlayerContext = createContext({} as PlayerContextData)

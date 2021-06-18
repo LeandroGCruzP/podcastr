@@ -18,6 +18,7 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLooping, setIsLooping] = useState(false)
+  const [isShuffling, setIsShuffling] = useState(false)
 
   /** Descrição:
    * Função para seleccioar um episódio e colocar para reprodução
@@ -60,7 +61,10 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
    * Função para tocar a próxima música
    */
   function playNext() {
-    if (hasNext) {
+    if (isShuffling) {
+      const nextRandomEpisodeIndex = Math.floor(Math.random() * episodeList.length)
+      setCurrentEpisodeIndex(nextRandomEpisodeIndex)
+    } else if (hasNext) {
       setCurrentEpisodeIndex(currentEpisodeIndex - 1)
     }
   }
@@ -81,6 +85,13 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
     setIsLooping(!isLooping)
   }
 
+  /** Descrição:
+   * Função para embaralhar a reprodução das musicas
+   */
+   function toggleShuffle() {
+    setIsShuffling(!isShuffling)
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -96,7 +107,9 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
         playNext,
         playPrevious,
         isLooping,
-        toggleLoop
+        toggleLoop,
+        isShuffling,
+        toggleShuffle,
       }}
     >
       {children}
