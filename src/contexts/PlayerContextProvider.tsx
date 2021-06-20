@@ -55,7 +55,7 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
   }
 
   const hasNext = currentEpisodeIndex > 0
-  const hasPrevious = (currentEpisodeIndex + 1) < episodeList.length
+  const hasPrevious = isShuffling || (currentEpisodeIndex + 1) < episodeList.length
 
   /** Descrição:
    * Função para tocar a próxima música
@@ -92,6 +92,14 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
     setIsShuffling(!isShuffling)
   }
 
+  /** Descrição:
+   * Função para limpar o player e deixa como se nunca tivesse tocado uma música
+   */
+   function clearPlayerState() {
+    setEpisodeList([])
+    setCurrentEpisodeIndex(0)
+  }
+
   return (
     <PlayerContext.Provider
       value={{
@@ -110,6 +118,7 @@ export function PlayerContextProvider({ children }: PlayerContextProvider) {
         toggleLoop,
         isShuffling,
         toggleShuffle,
+        clearPlayerState
       }}
     >
       {children}

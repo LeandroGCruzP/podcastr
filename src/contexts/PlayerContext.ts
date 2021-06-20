@@ -24,6 +24,7 @@ interface PlayerContextData {
   togglePlay: () => void
   toggleLoop: () => void
   toggleShuffle: () => void
+  clearPlayerState: () => void
 }
 
 export const PlayerContext = createContext({} as PlayerContextData)
