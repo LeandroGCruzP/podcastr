@@ -14,6 +14,7 @@ import { convertDurationToTimeString } from '../../utils/convertDurationToTimeSt
 
 import Image from 'next/image' // Define: altura * largura que vai carregar a imagem
 import Link from 'next/link' // Aplica o conceito SPA (Single Page Aplication) no href
+import Head from 'next/Head' // Coloca o titulo na página
 
 import { api } from '../../services/api'
 import { usePlayer } from '../../contexts/PlayerContext'
@@ -40,6 +41,10 @@ export default function Episode({ episode }: EpisodeProps) {
 
   return (
     <div className={styles.episode}>
+      <Head>
+        <title>{episode.title} | Podcastr</title>
+      </Head>
+
       <div className={styles.thumbnailContainer}>
         <Link href="/">
           <button type="button">

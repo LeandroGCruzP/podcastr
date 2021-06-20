@@ -13,6 +13,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 
 import Image from 'next/image' // Define: altura * largura que vai carregar a imagem
 import Link from 'next/link' // Aplica o conceito SPA (Single Page Aplication) no href
+import Head from 'next/Head' // Coloca o titulo na página
 
 import { usePlayer } from '../contexts/PlayerContext'
 import { api } from '../services/api'
@@ -44,6 +45,10 @@ export default function Home({ latestEpisodes, allEpisodes }: HomeProps) {
 
   return (
     <div className={styles.homepage}>
+      <Head>
+        <title>Home | Podcastr</title>
+      </Head>
+
       <section className={styles.latestEpisodes}>
         <h2>Últimos lançamentos</h2>
 
